@@ -1,0 +1,16 @@
+# ignore python files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ignore data files
+data*
+*.json
+*.xlsx
+
+# ignore local directories
+temp/
+venv/
+
+# ignore log files
+*.log
