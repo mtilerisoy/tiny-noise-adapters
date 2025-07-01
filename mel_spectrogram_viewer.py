@@ -48,7 +48,7 @@ class DatasetLoader:
     """
     Lazy loader for pre-computed mel spectrograms and their associated audio.
     """
-    def __init__(self, dataset_name: str, root_dir: str = "datasets") -> None:
+    def __init__(self, dataset_name: str, root_dir: str = "/projects/prjs1635/datasets") -> None:
         self.dataset_name = dataset_name.lower()
         if self.dataset_name not in DATASET_CONFIG:
             raise ValueError(
