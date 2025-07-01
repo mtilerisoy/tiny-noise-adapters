@@ -10,12 +10,12 @@ from src.util import get_annotations, get_individual_cycles_librosa, get_entire_
 
 
 SR = 16000
-data_dir = "datasets/ESC-50/"
+data_dir = "/projects/prjs1635/datasets/esc-50/"
 
 # for pretraining
 def preprocess_cycle_spectrogram(input_sec=2):
-    sound_dir_loc = np.array(gb.glob("datasets/icbhi/ICBHI_final_database/*.wav"))
-    annotation_dict = get_annotations("cycle", "datasets/icbhi/ICBHI_final_database")
+    sound_dir_loc = np.array(gb.glob("/projects/prjs1635/datasets/icbhi/ICBHI_final_database/*.wav"))
+    annotation_dict = get_annotations("cycle", "/projects/prjs1635/datasets/icbhi/ICBHI_final_database")
     cycles_npy_names = []
     train_test = []
 
@@ -35,7 +35,7 @@ def preprocess_cycle_spectrogram(input_sec=2):
             print(f"File {filename} not found in splits_data. Skipping.")
             continue
 
-        sample_data = get_individual_cycles_librosa('cycle', annotation_dict[fileID], "datasets/icbhi/ICBHI_final_database", fileID, SR, 2)
+        sample_data = get_individual_cycles_librosa('cycle', annotation_dict[fileID], "/projects/prjs1635/datasets/icbhi/ICBHI_final_database", fileID, SR, 2)
         
         j = 0
         for audio, label in sample_data:
@@ -54,11 +54,11 @@ def preprocess_cycle_spectrogram(input_sec=2):
     print(len(cycles_npy_names), len(train_test))
     np.save(data_dir + "cycle_spec_pad2_name.npy", cycles_npy_names)
     print("valid_data", valid_data, "invalid_data", invalid_data) # valid_data 5024 invalid_data 1874
-    np.save("datasets/icbhi/cycle_spec_split.npy", train_test)
+    np.save("/projects/prjs1635/datasets/icbhi/cycle_spec_split.npy", train_test)
 
 
 def preprocess_entire_spectrogram(input_sec=8):
-    sound_dir_loc = np.array(gb.glob("datasets/ESC-50/audio/*.wav"))
+    sound_dir_loc = np.array(gb.glob("/projects/prjs1635/datasets/esc-50/audio/*.wav"))
     train_test = []
     filename_list = []
     invalid_data = 0
@@ -78,10 +78,14 @@ def preprocess_entire_spectrogram(input_sec=8):
         if data is None:
             invalid_data += 1
             continue
-
-        np.save("datasets/ESC-50/entire_spec_npy_8000/" + fileID + ".npy", data)
-        filename_list.append("datasets/ESC-50/entire_spec_npy_8000/" + fileID)
-        np.save("datasets/ESC-50/entire_spec_filenames_8000.npy", filename_list)
+        
+        # create directories if they do not exist
+        if not os.path.exists("/projects/prjs1635/datasets/esc-50/entire_spec_npy_8000/"):
+            os.makedirs("/projects/prjs1635/datasets/esc-50/entire_spec_npy_8000/")
+        
+        np.save("/projects/prjs1635/datasets/esc-50/entire_spec_npy_8000/" + fileID + ".npy", data)
+        filename_list.append("/projects/prjs1635/datasets/esc-50/entire_spec_npy_8000/" + fileID)
+        np.save("/projects/prjs1635/datasets/esc-50/entire_spec_filenames_8000.npy", filename_list)
     print("invalid_data", invalid_data)
 
 
