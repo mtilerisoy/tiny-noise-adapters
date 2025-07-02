@@ -1,0 +1,28 @@
+# config.yaml
+
+# --- File Paths ---
+# Description: Paths to the input data and output directories.
+clean_data_path: "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
+clean_data_split_path: "/projects/prjs1635/datasets/icbhi/train_test_split.csv"
+noise_data_path: "/projects/prjs1635/datasets/esc-50/audio"
+output_path: "/projects/prjs1635/datasets/synthetic_dataset/"
+
+# --- Preprocessing ---
+# Description: Parameters that control the audio preprocessing.
+sample_rate: 44100
+target_duration_sec: 8.0
+snr_levels_db: [10]
+
+# --- Noise Injection ---
+# Description: Parameters for noise injection augmentations.
+# The sum of these probabilities must be <= 1.0.
+
+generator_settings:       # Pro
+  clean_sample_prob: 0.0  # Probability of yielding a clean, unprocessed sample
+  artefact_prob: 0.1     # Probability of applying a synthetic artefact
+  # No need to specify noise_prob as it is derived from the above probabilities
+  # will be calculated as (1.0 - clean_sample_prob - artefact_prob).
+  
+
+# --- Global Seed ---
+random_seed: 42
