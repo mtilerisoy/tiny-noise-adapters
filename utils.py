@@ -94,3 +94,16 @@ def peak_normalize(audio: np.ndarray) -> np.ndarray:
         return audio / max_peak
     
     return audio
+
+def pre_process_audio_mel_t(audio, sample_rate=16000, n_mels=64, f_min=50, f_max=2000, nfft=1024, hop=512):
+    S = librosa.feature.melspectrogram(
+        y=audio, sr=sample_rate, n_mels=n_mels, fmin=f_min, fmax=f_max, n_fft=nfft, hop_length=hop)
+    # convert scale to dB from magnitude
+    S = librosa.power_to_db(S, ref=np.max)
+    if S.max() != S.min():
+        mel_db = (S - S.min()) / (S.max() - S.min())
+    else:
+        mel_db = S
+        print("warning in producing spectrogram!")
+
+    return mel_db
