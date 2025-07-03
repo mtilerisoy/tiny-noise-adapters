@@ -40,8 +40,8 @@ def generate_test_set(config_path: str):
     output_identifier = config.get('output_identifier', '')
     
     # create output directories
-    test_output_dir = os.path.join(output_path, 'test')
-    os.makedirs(test_output_dir, exist_ok=True)
+    wav_output_dir = os.path.join(output_path, 'noisy_wav')
+    os.makedirs(wav_output_dir, exist_ok=True)
 
     # load the split file
     df_splits = pd.read_csv(split_file_path)
@@ -76,7 +76,7 @@ def generate_test_set(config_path: str):
 
         # keep the sample clean
         if random.random() < clean_prob:
-            clean_gt_dir = os.path.join(test_output_dir, "clean_ground_truth")
+            clean_gt_dir = os.path.join(wav_output_dir, "clean_ground_truth")
             os.makedirs(clean_gt_dir, exist_ok=True)
             shutil.copy2(clean_file_path, os.path.join(clean_gt_dir, original_name + f"__{output_identifier}.wav"))
 
@@ -91,7 +91,7 @@ def generate_test_set(config_path: str):
                 noisy_audio = injector.add_noise(clean_audio, noise_audio, snr)
                 normalized_audio = peak_normalize(noisy_audio)
                 output_filename = f"{original_name}_ambient_{noise_name}_{snr}dB__{output_identifier}.wav"
-                output_dir = os.path.join(test_output_dir, "ambient_noise", f"snr_{snr}dB")
+                output_dir = os.path.join(wav_output_dir, "ambient_noise", f"snr_{snr}dB")
                 os.makedirs(output_dir, exist_ok=True)
                 save_audio(os.path.join(output_dir, output_filename), normalized_audio, config['sample_rate'])
 
@@ -109,7 +109,7 @@ def generate_test_set(config_path: str):
             else:
                 desc = "artefact"
             output_filename = f"{original_name}_{spec['type']}_{desc}_NA__{output_identifier}.wav"
-            output_dir = os.path.join(test_output_dir, "synthetic_artefacts", spec['type'])
+            output_dir = os.path.join(wav_output_dir, "synthetic_artefacts", spec['type'])
             os.makedirs(output_dir, exist_ok=True)
             save_audio(os.path.join(output_dir, output_filename), artefact_audio, config['sample_rate'])
 
