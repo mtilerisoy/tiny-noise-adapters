@@ -9,22 +9,22 @@ output_path: "/projects/prjs1635/datasets/synthetic_dataset/"
 
 # a unique identifier for the generated dataset
 # this will be added to the output file names to istinguish different runs
-output_identifier: "_0000"
+output_identifier: "_0001"
 
 # --- Preprocessing ---
 # Description: Parameters that control the audio preprocessing.
-sample_rate: 44100
+sample_rate: 16000
 target_duration_sec: 8.0
-snr_levels_db: [40]
+snr_levels_db: [20]
 
 # --- Noise Injection ---
 # Description: Parameters for noise injection augmentations.
 # The sum of these probabilities must be <= 1.0.
 
 generator_settings:       # Pro
-  clean_sample_prob: 1.0  # Probability of yielding a clean, unprocessed sample
+  clean_sample_prob: 0.0  # Probability of yielding a clean, unprocessed sample
   artefact_prob: 0.0     # Probability of applying a synthetic artefact
-  ambient_noise_prob: 0.0  # Probability of injecting ambient noise
+  ambient_noise_prob: 1.0  # Probability of injecting ambient noise
   # No need to specify noise_prob as it is derived from the above probabilities
   # will be calculated as (1.0 - clean_sample_prob - artefact_prob).
   
