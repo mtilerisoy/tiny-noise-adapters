@@ -4,7 +4,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # ignore data files
-data*
+datasets/
 *.json
 *.xlsx
 
@@ -15,3 +15,6 @@ venv/
 
 # ignore log files
 *.log
+
+# mics
+.commands.txt
